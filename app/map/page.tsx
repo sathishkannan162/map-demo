@@ -25,35 +25,6 @@ const gridMatrix = [
 	[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
 ];
 
-const buildings: Record<string, string> = {
-	"0,4": "Building A",
-	"1,0": "Building B",
-	"1,1": "Building C",
-	"1,4": "Building D",
-	"1,6": "Building E",
-	"1,7": "Building F",
-	"2,7": "Building G",
-	"3,1": "Building H",
-	"3,2": "Building I",
-	"3,3": "Building J",
-	"3,4": "Building K",
-	"3,5": "Building L",
-	"3,7": "Building M",
-	"5,2": "Building N",
-	"5,3": "Building O",
-	"5,4": "Building P",
-	"5,5": "Building Q",
-	"5,7": "Building R",
-	"7,1": "Building S",
-	"7,2": "Building T",
-	"7,3": "Building U",
-	"7,5": "Building V",
-	"7,6": "Building W",
-	"7,7": "Building X",
-	"9,6": "Building Y",
-	"9,7": "Building Z",
-};
-
 const cellSize = 30; // size of each grid cell in pixels
 const origin = [0, 0]; // starting LatLng
 
@@ -65,6 +36,33 @@ const imageBounds = [
 	pixelToLatLng(0, 0),
 	pixelToLatLng(gridMatrix[0].length, gridMatrix.length),
 ];
+
+// Find adjacent walkable cell (up, down, left, right) next to a building cell
+function findAdjacentWalkableCell(x: number, y: number): [number, number] | null {
+	const directions = [
+		[0, -1], // up
+		[0, 1], // down
+		[-1, 0], // left
+		[1, 0], // right
+	];
+
+	for (const [dx, dy] of directions) {
+		const nx = x + dx;
+		const ny = y + dy;
+
+		if (
+			ny >= 0 &&
+			ny < gridMatrix.length &&
+			nx >= 0 &&
+			nx < gridMatrix[0].length &&
+			gridMatrix[ny][nx] === 0
+		) {
+			return [nx, ny];
+		}
+	}
+
+	return null;
+}
 
 export default function MapPage() {
 	const userPos = [0, 0]; // user start grid coordinate
@@ -81,6 +79,7 @@ export default function MapPage() {
 			targetPos[1],
 			grid,
 		);
+		console.log(rawPath, "rawpath");
 		setPath(rawPath);
 	}, [targetPos]);
 
@@ -102,6 +101,17 @@ export default function MapPage() {
 		});
 	}
 
+	// Helper to handle building clicks: set target to adjacent walkable cell if available
+	function onBuildingClick(x: number, y: number) {
+		const walkableNeighbor = findAdjacentWalkableCell(x, y);
+		if (walkableNeighbor) {
+			setTargetPos(walkableNeighbor);
+		} else {
+			// fallback: maybe keep current target or ignore
+			console.log("No adjacent walkable cell found for building", x, y);
+		}
+	}
+
 	return (
 		<>
 			<style>{`
@@ -119,7 +129,7 @@ export default function MapPage() {
 					style={{ height: "100%", width: "100%" }}
 					crs={L.CRS.Simple}
 				>
-					<ImageOverlay url="/campus-map-hospital.webp" bounds={imageBounds} />
+					<ImageOverlay url="" bounds={imageBounds} />
 
 					{/* Buildings as black rectangles */}
 					{gridMatrix.map((row, y) =>
@@ -134,10 +144,7 @@ export default function MapPage() {
 										fillOpacity: 0.7,
 									}}
 									eventHandlers={{
-										click: () => {
-											console.log(x, y, "position");
-											setTargetPos([x, y]);
-										},
+										click: () => onBuildingClick(x, y),
 									}}
 								/>
 							) : null,
@@ -163,23 +170,21 @@ export default function MapPage() {
 						<Popup>Destination</Popup>
 					</Marker>
 
-					{/* Building labels as clickable divIcons */}
-					{Object.entries(buildings).map(([key, name]) => {
-						const [x, y] = key.split(",").map(Number);
-						return (
-							<Marker
-								key={`label-${key}`}
-								position={pixelToLatLng(x + 0.5, y + 0.5)} // center text in cell
-								icon={createBuildingIcon(name)}
-								eventHandlers={{
-									click: () => {
-										console.log(x, y, "position");
-										setTargetPos([x, y]);
-									},
-								}}
-							/>
-						);
-					})}
+					{/* Building labels as clickable divIcons with coordinate names */}
+					{gridMatrix.map((row, y) =>
+						row.map((cell, x) =>
+							cell === 1 ? (
+								<Marker
+									key={`label-${x}-${y}`}
+									position={pixelToLatLng(x + 0.5, y + 0.5)} // center text in cell
+									icon={createBuildingIcon(`building-${x}-${y}`)}
+									eventHandlers={{
+										click: () => onBuildingClick(x, y),
+									}}
+								/>
+							) : null,
+						),
+					)}
 				</MapContainer>
 			</div>
 		</>
