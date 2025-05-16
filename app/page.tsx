@@ -1,11 +1,11 @@
-import PathfindingGrid from "./path-finding-grid";
+import ClinicHomePage from "@/components/clinic-home-page"
+import type { Metadata } from "next"
 
-export default function Home() {
-	return (
-		<div className="font-[family-name:var(--font-geist-sans)]">
-			<div className="my-4 py-4">
-				<PathfindingGrid />
-			</div>
-		</div>
-	);
+export const metadata: Metadata = {
+  title: "Medical Clinic & Hospital Navigation",
+  description: "Medical clinic services and indoor navigation system for hospitals",
+}
+
+export default function HomePage() {
+  return <ClinicHomePage />
 }
