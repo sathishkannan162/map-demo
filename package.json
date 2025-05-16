@@ -21,7 +21,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.17",
     "@types/node": "^20",
+    "@types/pathfinding": "^0.0.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
