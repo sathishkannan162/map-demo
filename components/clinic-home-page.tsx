@@ -19,6 +19,7 @@ import {
 	Users,
 } from "lucide-react";
 import { useState } from "react";
+import { HospitalNavigation } from "./ui/hospital-navigation";
 
 export default function ClinicHomePage() {
 	const [showNavigation, setShowNavigation] = useState(false);
@@ -93,8 +94,8 @@ export default function ClinicHomePage() {
 							</div>
 						</div>
 					</div>
-          <HospitalMap />
-					<MapComponent />
+					{/* <HospitalMap /> */}
+					<HospitalNavigation />
 				</div>
 			) : (
 				<>
