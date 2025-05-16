@@ -69,6 +69,16 @@ export default function MapPage() {
 	const [targetPos, setTargetPos] = useState<[number, number]>([9, 9]);
 	const [path, setPath] = useState<[number, number][]>([]);
 
+	// Precompute building positions with labels (numbered from 1)
+	const buildings: { x: number; y: number; label: string }[] = [];
+	gridMatrix.forEach((row, y) => {
+		row.forEach((cell, x) => {
+			if (cell === 1) {
+				buildings.push({ x, y, label: `Building ${buildings.length + 1}` });
+			}
+		});
+	});
+
 	useEffect(() => {
 		const grid = new PF.Grid(gridMatrix);
 		const finder = new PF.AStarFinder();
@@ -132,24 +142,20 @@ export default function MapPage() {
 					<ImageOverlay url="" bounds={imageBounds} />
 
 					{/* Buildings as black rectangles */}
-					{gridMatrix.map((row, y) =>
-						row.map((cell, x) =>
-							cell === 1 ? (
-								<Rectangle
-									key={`building-${x}-${y}`}
-									bounds={[pixelToLatLng(x, y), pixelToLatLng(x + 1, y + 1)]}
-									pathOptions={{
-										color: "black",
-										fillColor: "grey",
-										fillOpacity: 0.7,
-									}}
-									eventHandlers={{
-										click: () => onBuildingClick(x, y),
-									}}
-								/>
-							) : null,
-						),
-					)}
+					{buildings.map(({ x, y }) => (
+						<Rectangle
+							key={`building-${x}-${y}`}
+							bounds={[pixelToLatLng(x, y), pixelToLatLng(x + 1, y + 1)]}
+							pathOptions={{
+								color: "black",
+								fillColor: "grey",
+								fillOpacity: 0.7,
+							}}
+							eventHandlers={{
+								click: () => onBuildingClick(x, y),
+							}}
+						/>
+					))}
 
 					{/* Path */}
 					{path.map(([x, y], idx) => (
@@ -170,21 +176,17 @@ export default function MapPage() {
 						<Popup>Destination</Popup>
 					</Marker>
 
-					{/* Building labels as clickable divIcons with coordinate names */}
-					{gridMatrix.map((row, y) =>
-						row.map((cell, x) =>
-							cell === 1 ? (
-								<Marker
-									key={`label-${x}-${y}`}
-									position={pixelToLatLng(x + 0.5, y + 0.5)} // center text in cell
-									icon={createBuildingIcon(`building-${x}-${y}`)}
-									eventHandlers={{
-										click: () => onBuildingClick(x, y),
-									}}
-								/>
-							) : null,
-						),
-					)}
+					{/* Building labels as clickable divIcons with sequential building names */}
+					{buildings.map(({ x, y, label }) => (
+						<Marker
+							key={`label-${x}-${y}`}
+							position={pixelToLatLng(x + 0.5, y + 0.5)} // center text in cell
+							icon={createBuildingIcon(label)}
+							eventHandlers={{
+								click: () => onBuildingClick(x, y),
+							}}
+						/>
+					))}
 				</MapContainer>
 			</div>
 		</>
