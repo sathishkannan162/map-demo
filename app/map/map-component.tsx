@@ -287,7 +287,7 @@ export function MapComponent({
           <MapViewController center={mapCenter} zoom={mapZoom} />
 
           {/* Background */}
-          <ImageOverlay url="" bounds={imageBounds} />
+          <ImageOverlay url="/test1.webp" bounds={imageBounds} />
 
           {/* Buildings */}
           {filteredBuildings.map((building) => (
