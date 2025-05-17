@@ -151,7 +151,7 @@ export default function ClinicHomePage() {
 								</div>
 								<div className="flex items-center justify-center">
 									<img
-										src="/placeholder.svg?height=400&width=500"
+										src="/test1.webp"
 										alt="Medical professionals"
 										className="rounded-lg shadow-lg"
 										width={500}
