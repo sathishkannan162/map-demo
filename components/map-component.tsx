@@ -483,11 +483,40 @@ export function MapComponent({
 
 	return (
 		<>
-			<style>{`
+<style>{`
         .building-label:hover {
           background: rgba(0, 123, 255, 0.9) !important;
           color: white !important;
           border-color: #0056b3 !important;
+        }
+        .custom-marker {
+          background: transparent;
+        }
+        .marker-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        }
+        .marker-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: white;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+          border: 2px solid #333;
+        }
+        .user-marker .marker-icon {
+          background: #3b82f6;
+          color: white;
+        }
+        .destination-marker .marker-icon {
+          background: #ef4444;
+          color: white;
         }
       `}</style>
 
@@ -530,15 +559,39 @@ export function MapComponent({
 					/>
 
 					{/* User Marker */}
-					<Marker position={pixelToLatLng(userPos[0], userPos[1])}>
+					<Marker
+						position={pixelToLatLng(userPos[0], userPos[1])}
+						icon={L.divIcon({
+							className: "custom-marker user-marker",
+							html: `<div class="marker-container">
+                <div class="marker-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-navigation"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                </div>
+              </div>`,
+							iconSize: [30, 30],
+							iconAnchor: [15, 15],
+						})}
+					>
 						<Popup>You are here</Popup>
 					</Marker>
 
 					{/* Target Marker */}
 					{targetPos && (
-						<Marker position={pixelToLatLng(targetPos[0], targetPos[1])}>
-							<Popup>Destination</Popup>
-						</Marker>
+            <Marker
+              position={pixelToLatLng(targetPos[0], targetPos[1])}
+              icon={L.divIcon({
+                className: "custom-marker destination-marker",
+                html: `<div class="marker-container">
+                  <div class="marker-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
+                  </div>
+                </div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+              })}
+            >
+              <Popup>Destination</Popup>
+            </Marker>
 					)}
 
 					{/* Building labels */}

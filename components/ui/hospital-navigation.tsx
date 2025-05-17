@@ -26,38 +26,6 @@ export function HospitalNavigation() {
 
 	return (
 		<div className="min-h-screen bg-gray-50">
-			{/* Header */}
-			<header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-				<div className="container mx-auto px-4 py-3 flex justify-between items-center">
-					<div className="flex items-center">
-						<div className="text-rose-500 mr-2">❤️</div>
-						<h1 className="text-xl font-bold">Medical Clinic</h1>
-					</div>
-
-					<nav className="hidden md:flex space-x-6">
-						<a href="#" className="text-gray-600 hover:text-gray-900">
-							Services
-						</a>
-						<a href="#" className="text-gray-600 hover:text-gray-900">
-							Doctors
-						</a>
-						<a href="#" className="text-gray-600 hover:text-gray-900">
-							Contact
-						</a>
-						<a href="#" className="text-blue-600 font-medium">
-							Hospital Navigation
-						</a>
-					</nav>
-
-					<div className="flex items-center">
-						<div className="mr-4 flex items-center">
-							<Phone className="h-4 w-4 mr-1" />
-							<span>(123) 456-7890</span>
-						</div>
-						<Button>Book Appointment</Button>
-					</div>
-				</div>
-			</header>
 
 			{/* Main Content */}
 			<main className="container mx-auto px-4 py-8">
