@@ -531,7 +531,7 @@ export function MapComponent({
 					<MapViewController center={mapCenter} zoom={mapZoom} />
 
 					{/* Background */}
-					<ImageOverlay url="/test1.webp" bounds={imageBounds} />
+					<ImageOverlay url="/test2.webp" bounds={imageBounds} />
 
 					{/* Buildings */}
 					{filteredBuildings.map((building) => (
@@ -542,9 +542,11 @@ export function MapComponent({
 								pixelToLatLng(building.x + 1, building.y + 1),
 							]}
 							pathOptions={{
-								color: "#fffff00",
+								// color: "black",
+                color: "#ffffff00",
 								fillColor: building.color,
-								fillOpacity: 0.0,
+								// fillOpacity: 0.7,
+								fillOpacity: 0,
 							}}
 							eventHandlers={{
 								click: () => onBuildingClick(building),
