@@ -32,7 +32,7 @@ export default function ClinicHomePage() {
 					<div className="flex items-center gap-2">
 						<Heart className="h-6 w-6 text-red-500" />
 						<h1 className="text-xl font-semibold text-gray-900">
-						  Lap	
+						  Lapp	
 						</h1>
 					</div>
 					<nav className="hidden space-x-6 md:flex">
@@ -456,7 +456,7 @@ export default function ClinicHomePage() {
 									<div className="mb-4 flex items-center gap-2">
 										<Heart className="h-6 w-6 text-red-500" />
 										<h3 className="text-xl font-semibold text-white">
-											Lap
+											Lapp
 										</h3>
 									</div>
 									<p className="mb-4 text-gray-400">
