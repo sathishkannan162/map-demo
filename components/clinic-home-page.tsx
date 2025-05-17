@@ -32,7 +32,7 @@ export default function ClinicHomePage() {
 					<div className="flex items-center gap-2">
 						<Heart className="h-6 w-6 text-red-500" />
 						<h1 className="text-xl font-semibold text-gray-900">
-							Medical Clinic
+							Medical Labs
 						</h1>
 					</div>
 					<nav className="hidden space-x-6 md:flex">
@@ -89,7 +89,7 @@ export default function ClinicHomePage() {
 									onClick={() => setShowNavigation(false)}
 									className="border-blue-500 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
 								>
-									Back to Clinic
+									Back to Home
 								</Button>
 							</div>
 						</div>
@@ -456,7 +456,7 @@ export default function ClinicHomePage() {
 									<div className="mb-4 flex items-center gap-2">
 										<Heart className="h-6 w-6 text-red-500" />
 										<h3 className="text-xl font-semibold text-white">
-											Medical Clinic
+											Medical Labs
 										</h3>
 									</div>
 									<p className="mb-4 text-gray-400">
