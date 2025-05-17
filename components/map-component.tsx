@@ -542,9 +542,9 @@ export function MapComponent({
 								pixelToLatLng(building.x + 1, building.y + 1),
 							]}
 							pathOptions={{
-								color: "black",
+								color: "#fffff00",
 								fillColor: building.color,
-								fillOpacity: 0.7,
+								fillOpacity: 0.0,
 							}}
 							eventHandlers={{
 								click: () => onBuildingClick(building),
